@@ -86,22 +86,15 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
         console.log('Email not found, proceeding with new registration');
         
         // Get current pie counts from Google Sheets and assign pie type
-        let pieType = await assignPieTypeFromSheet();
-        let isWildCard = false;
+        const pieType = await assignPieTypeFromSheet();
+        const isWildCard = pieType === 'Wild Card';
         
         console.log('Pie assigned:', pieType);
-        
-        if (pieType === 'wildcard') {
-            // Let the registrant pick their own pie type
-            isWildCard = true;
-            pieType = await getWildCardChoice();
-            console.log('Wild card choice made:', pieType);
-        }
         
         // Display result
         const resultDiv = document.getElementById('assignmentResult');
         resultDiv.textContent = isWildCard
-            ? `🎉 Wild Card! You chose to bring a ${pieType} pie`
+            ? `🎉 Wild Card! You get to choose which pie to bring \u2014 sweet or savoury.`
             : `You are bringing a ${pieType} pie`;
         resultDiv.classList.add('show');
         
@@ -208,13 +201,12 @@ async function assignPieTypeFromSheet() {
         const counts = await getPieCountsFromSheet();
         console.log('Current pie counts from sheet:', counts);
         
-        const totalSoFar = (counts.sweetCount || 0) + (counts.savoryCount || 0);
-        const registrantNumber = totalSoFar + 1;
+        const registrantNumber = (counts.total || 0) + 1;
         console.log('This registrant would be number:', registrantNumber);
         
         if (WILD_CARD_SLOTS.includes(registrantNumber)) {
             console.log('This registrant lands on a wild card slot!');
-            return 'wildcard';
+            return 'Wild Card';
         }
         
         // Ensure 50/50 split based on actual sheet data
@@ -231,30 +223,6 @@ async function assignPieTypeFromSheet() {
         // If we can't get counts, default to sweet
         return 'sweet';
     }
-}
-
-// Shows the Sweet/Savoury choice buttons and resolves with the person's pick.
-function getWildCardChoice() {
-    return new Promise((resolve) => {
-        const choiceDiv = document.getElementById('wildCardChoice');
-        const sweetBtn = document.getElementById('wildCardSweet');
-        const savouryBtn = document.getElementById('wildCardSavoury');
-        
-        choiceDiv.classList.remove('hidden');
-        
-        function handlePick(pieType) {
-            choiceDiv.classList.add('hidden');
-            sweetBtn.removeEventListener('click', onSweet);
-            savouryBtn.removeEventListener('click', onSavoury);
-            resolve(pieType);
-        }
-        
-        function onSweet() { handlePick('sweet'); }
-        function onSavoury() { handlePick('savoury'); }
-        
-        sweetBtn.addEventListener('click', onSweet);
-        savouryBtn.addEventListener('click', onSavoury);
-    });
 }
 
 async function getPieCountsFromSheet() {
