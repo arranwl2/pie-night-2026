@@ -124,7 +124,7 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
 });
 
 async function checkEmailExists(email) {
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzriY4eX1uR93CuzraxvUW9qH__M9IU_rL5cYD9O7lVmQyLvivZbdyLOdlxNFVVuDPl/exec';
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzdb0oniGQbsw--ydrPL0x--seacnsTO3Xuaoe8-uet23hzUvFCxIlxSrmrQGc_zxEg/exec';
     
     console.log('Checking if email exists:', email);
     
@@ -226,7 +226,7 @@ async function assignPieTypeFromSheet() {
 }
 
 async function getPieCountsFromSheet() {
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzriY4eX1uR93CuzraxvUW9qH__M9IU_rL5cYD9O7lVmQyLvivZbdyLOdlxNFVVuDPl/exec';
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzdb0oniGQbsw--ydrPL0x--seacnsTO3Xuaoe8-uet23hzUvFCxIlxSrmrQGc_zxEg/exec';
     
     try {
         const countsUrl = `${scriptUrl}?action=getPieCounts`;
@@ -306,7 +306,7 @@ function sendEmail(email, firstName, lastName, pieType) {
 
 function saveToGoogleSheets(firstName, lastName, email, pieType) {
     // Replace this URL with your Google Apps Script web app URL
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzriY4eX1uR93CuzraxvUW9qH__M9IU_rL5cYD9O7lVmQyLvivZbdyLOdlxNFVVuDPl/exec';
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzdb0oniGQbsw--ydrPL0x--seacnsTO3Xuaoe8-uet23hzUvFCxIlxSrmrQGc_zxEg/exec';
     
     console.log('Saving to Google Sheets:', { firstName, lastName, email, pieType });
     
