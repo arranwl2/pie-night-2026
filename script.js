@@ -129,11 +129,12 @@ async function checkEmailExists(email) {
     console.log('Checking if email exists:', email);
     
     try {
-        const checkUrl = `${scriptUrl}?action=checkEmail&email=${encodeURIComponent(email)}`;
+        const checkUrl = `${scriptUrl}?action=checkEmail&email=${encodeURIComponent(email)}&_=${Date.now()}`;
         console.log('Check URL:', checkUrl);
         
         const response = await fetch(checkUrl, {
-            method: 'GET'
+            method: 'GET',
+            cache: 'no-store'
         });
         
         console.log('Response status:', response.status);
@@ -229,11 +230,12 @@ async function getPieCountsFromSheet() {
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbzdb0oniGQbsw--ydrPL0x--seacnsTO3Xuaoe8-uet23hzUvFCxIlxSrmrQGc_zxEg/exec';
     
     try {
-        const countsUrl = `${scriptUrl}?action=getPieCounts`;
+        const countsUrl = `${scriptUrl}?action=getPieCounts&_=${Date.now()}`;
         console.log('Pie counts URL:', countsUrl);
         
         const response = await fetch(countsUrl, {
-            method: 'GET'
+            method: 'GET',
+            cache: 'no-store'
         });
         
         const responseText = await response.text();
