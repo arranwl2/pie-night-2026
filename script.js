@@ -6,7 +6,7 @@ document.getElementById('submitPassword').addEventListener('click', function() {
     const password = document.getElementById('passwordInput').value;
     const errorDiv = document.getElementById('passwordError');
     
-    if (password === 'pieisgreat') {
+    if (password === 'ilovepie') {
         // Clear any previous error
         errorDiv.textContent = '';
         
@@ -86,13 +86,23 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
         console.log('Email not found, proceeding with new registration');
         
         // Get current pie counts from Google Sheets and assign pie type
-        const pieType = await assignPieTypeFromSheet();
+        let pieType = await assignPieTypeFromSheet();
+        let isWildCard = false;
         
         console.log('Pie assigned:', pieType);
         
+        if (pieType === 'wildcard') {
+            // Let the registrant pick their own pie type
+            isWildCard = true;
+            pieType = await getWildCardChoice();
+            console.log('Wild card choice made:', pieType);
+        }
+        
         // Display result
         const resultDiv = document.getElementById('assignmentResult');
-        resultDiv.textContent = `You are bringing a ${pieType} pie`;
+        resultDiv.textContent = isWildCard
+            ? `🎉 Wild Card! You chose to bring a ${pieType} pie`
+            : `You are bringing a ${pieType} pie`;
         resultDiv.classList.add('show');
         
         // Hide the submit button and form inputs
@@ -187,12 +197,25 @@ function hideFormElements() {
     });
 }
 
+// Registrant numbers (1-indexed, counting this new signup) that get to
+// choose their own pie type instead of being auto-assigned.
+const WILD_CARD_SLOTS = [5, 7];
+
 async function assignPieTypeFromSheet() {
     console.log('Getting pie counts from Google Sheets...');
     
     try {
         const counts = await getPieCountsFromSheet();
         console.log('Current pie counts from sheet:', counts);
+        
+        const totalSoFar = (counts.sweetCount || 0) + (counts.savoryCount || 0);
+        const registrantNumber = totalSoFar + 1;
+        console.log('This registrant would be number:', registrantNumber);
+        
+        if (WILD_CARD_SLOTS.includes(registrantNumber)) {
+            console.log('This registrant lands on a wild card slot!');
+            return 'wildcard';
+        }
         
         // Ensure 50/50 split based on actual sheet data
         if (counts.sweetCount <= counts.savoryCount) {
@@ -208,6 +231,30 @@ async function assignPieTypeFromSheet() {
         // If we can't get counts, default to sweet
         return 'sweet';
     }
+}
+
+// Shows the Sweet/Savoury choice buttons and resolves with the person's pick.
+function getWildCardChoice() {
+    return new Promise((resolve) => {
+        const choiceDiv = document.getElementById('wildCardChoice');
+        const sweetBtn = document.getElementById('wildCardSweet');
+        const savouryBtn = document.getElementById('wildCardSavoury');
+        
+        choiceDiv.classList.remove('hidden');
+        
+        function handlePick(pieType) {
+            choiceDiv.classList.add('hidden');
+            sweetBtn.removeEventListener('click', onSweet);
+            savouryBtn.removeEventListener('click', onSavoury);
+            resolve(pieType);
+        }
+        
+        function onSweet() { handlePick('sweet'); }
+        function onSavoury() { handlePick('savoury'); }
+        
+        sweetBtn.addEventListener('click', onSweet);
+        savouryBtn.addEventListener('click', onSavoury);
+    });
 }
 
 async function getPieCountsFromSheet() {
@@ -247,7 +294,7 @@ function sendEmail(email, firstName, lastName, pieType) {
             to_email: email,
             to_name: `${firstName} ${lastName}`,
             pie_type: pieType,
-            event_date: 'Sunday October 5th 2025'
+            event_date: 'Sunday October 4th at 2pm 2026'
         };
         
         console.log('Template params:', templateParams);
@@ -300,7 +347,7 @@ function saveToGoogleSheets(firstName, lastName, email, pieType) {
         lastName: lastName,
         email: email,
         pieType: pieType,
-        eventDate: 'Sunday October 5th 2025'
+        eventDate: 'Sunday October 4th at 2pm 2026'
     };
     
     console.log('Data being sent to Google Sheets:', data);

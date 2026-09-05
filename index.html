@@ -3,50 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pie Night 2025</title>
+    <title>Pie Night</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <!-- Password Screen -->
     <div id="passwordScreen" class="password-screen">
-        <div id="passwordBox" class="password-box">
-            <h2>Please enter the password</h2>
-            <input type="password" id="passwordInput" placeholder="Enter password">
-            <button id="submitPassword">Submit</button>
-            <div id="passwordError" class="error-message"></div>
+        <div id="passwordBox" class="card">
+            <svg class="scallop" viewBox="0 0 240 20" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0,20 Q10,0 20,20 Q30,0 40,20 Q50,0 60,20 Q70,0 80,20 Q90,0 100,20 Q110,0 120,20 Q130,0 140,20 Q150,0 160,20 Q170,0 180,20 Q190,0 200,20 Q210,0 220,20 Q230,0 240,20 Z"/>
+            </svg>
+            <div class="card-inner">
+                <svg class="pie-icon" viewBox="0 0 56 56" aria-hidden="true">
+                    <circle cx="28" cy="28" r="25" fill="#E4A94A" stroke="#8B5A2B" stroke-width="3"/>
+                    <path d="M6 30 A22 20 0 0 0 50 30" stroke="#7B2D26" stroke-width="4" fill="none" opacity="0.85"/>
+                    <line x1="15" y1="13" x2="41" y2="43" stroke="#8B5A2B" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="41" y1="13" x2="15" y2="43" stroke="#8B5A2B" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="28" y1="7" x2="28" y2="49" stroke="#8B5A2B" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+                <h2>This one's locked</h2>
+                <p class="hint">Enter the password to sign up for pie night.</p>
+                <input type="password" id="passwordInput" placeholder="Password">
+                <button id="submitPassword">Unlock</button>
+                <div id="passwordError" class="error-message"></div>
+            </div>
         </div>
     </div>
 
     <!-- Main Content (initially hidden) -->
     <div id="mainContent" class="main-content hidden">
-        <div id="contentBox" class="content-box">
-            <h1 id="welcomeTitle" class="welcome-title">Welcome to Pie Night 2025!</h1>
-            <p id="eventDate" class="event-date">Date: Sunday October 5th 2025</p>
-            <p id="eventDescription" class="event-description">Please fill out the following information, and we will assign you either a sweet or savoury pie to bring</p>
-            
-            <form id="registrationForm" class="registration-form">
-                <div class="form-group">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" name="firstName" required>
+        <div id="contentBox" class="card">
+            <svg class="scallop" viewBox="0 0 240 20" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0,20 Q10,0 20,20 Q30,0 40,20 Q50,0 60,20 Q70,0 80,20 Q90,0 100,20 Q110,0 120,20 Q130,0 140,20 Q150,0 160,20 Q170,0 180,20 Q190,0 200,20 Q210,0 220,20 Q230,0 240,20 Z"/>
+            </svg>
+            <div class="card-inner">
+                <svg class="pie-icon" viewBox="0 0 56 56" aria-hidden="true">
+                    <circle cx="28" cy="28" r="25" fill="#E4A94A" stroke="#8B5A2B" stroke-width="3"/>
+                    <path d="M6 30 A22 20 0 0 0 50 30" stroke="#7B2D26" stroke-width="4" fill="none" opacity="0.85"/>
+                    <line x1="15" y1="13" x2="41" y2="43" stroke="#8B5A2B" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="41" y1="13" x2="15" y2="43" stroke="#8B5A2B" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="28" y1="7" x2="28" y2="49" stroke="#8B5A2B" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+                <h1 id="welcomeTitle" class="welcome-title">Welcome to Pie Night</h1>
+                <p id="eventDate" class="event-date">Sunday October 4th at 2pm 2026</p>
+                <p id="eventDescription" class="event-description">Tell us who's coming, and we'll assign you a sweet or savoury pie to bring.</p>
+
+                <form id="registrationForm" class="registration-form">
+                    <div class="form-group">
+                        <label for="firstName">First name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <button type="submit" id="submitForm">Count me in</button>
+                </form>
+
+                <div id="wildCardChoice" class="wildcard-choice hidden">
+                    <p class="wildcard-message">🎉 Wild Card! You get to pick your own pie.</p>
+                    <div class="wildcard-buttons">
+                        <button type="button" id="wildCardSweet">Sweet</button>
+                        <button type="button" id="wildCardSavoury">Savoury</button>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="lastName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
-                <button type="submit" id="submitForm">Submit</button>
-            </form>
-            
-            <div id="assignmentResult" class="assignment-result"></div>
+
+                <div id="assignmentResult" class="assignment-result"></div>
+            </div>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html> 
+</html>

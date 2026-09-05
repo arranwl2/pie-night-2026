@@ -1,3 +1,18 @@
+:root {
+    --color-berry: #7B2D26;
+    --color-berry-dark: #5C2019;
+    --color-cream: #F7ECD8;
+    --color-cream-dim: #EFE0C2;
+    --color-crust-line: #D8C6A6;
+    --color-gold: #E4A94A;
+    --color-gold-dark: #C98A2E;
+    --color-coffee: #3B2A1E;
+    --color-error: #A33B2E;
+
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Work Sans', sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,22 +20,29 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #FF8C00; /* Halloween orange */
+    font-family: var(--font-body);
+    background-color: var(--color-berry);
+    background-image: radial-gradient(circle at 50% 0%, var(--color-berry-dark) 0%, var(--color-berry) 60%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: hidden;
+    color: var(--color-coffee);
 }
 
-/* Password Screen */
-.password-screen {
+/* Shared card component (crimped pie-crust edge) */
+.password-screen,
+.main-content {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 32px 20px;
+}
+
+.password-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -28,164 +50,211 @@ body {
     transition: opacity 0.5s ease-out;
 }
 
-.password-box {
-    background-color: #000;
-    border: 3px solid #fff;
-    padding: 40px;
-    border-radius: 10px;
-    text-align: center;
-    min-width: 300px;
-    max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.password-box h2 {
-    color: #fff;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-.password-box input {
+.card {
+    position: relative;
     width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 2px solid #fff;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #fff;
-    color: #000;
+    max-width: 440px;
+    background-color: var(--color-cream);
+    border-radius: 6px;
+    box-shadow: 0 20px 40px rgba(59, 42, 30, 0.35);
+    margin-top: 20px;
 }
 
-.password-box button {
-    background-color: #FF8C00;
-    color: #000;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.password-box button:hover {
-    background-color: #FFA500;
-}
-
-.error-message {
-    color: #ff6b6b;
-    margin-top: 10px;
-    font-size: 14px;
-    min-height: 20px;
-}
-
-/* Main Content */
-.main-content {
-    width: 100%;
-    min-height: 100vh;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 50px;
-}
-
-.content-box {
-    background-color: #000;
-    border: 3px solid #fff;
-    padding: 40px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+#contentBox.card {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.content-box.visible {
+#contentBox.card.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-.welcome-title {
-    color: #fff;
-    font-size: 32px;
-    margin-bottom: 20px;
+/* The scalloped "crust" edge sitting on top of each card */
+.scallop {
+    position: absolute;
+    top: -19px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    color: var(--color-cream);
+    fill: currentColor;
+    display: block;
+}
+
+.card-inner {
+    padding: 40px 36px 36px;
     text-align: center;
+}
+
+.pie-icon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 12px;
+}
+
+.card-inner h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.hint {
+    font-size: 15px;
+    color: var(--color-coffee);
+    opacity: 0.75;
+    margin-bottom: 22px;
+}
+
+#passwordInput {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    border: 2px solid var(--color-crust-line);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    background-color: #fff;
+    color: var(--color-coffee);
+}
+
+#passwordInput:focus-visible,
+.form-group input:focus-visible {
+    outline: none;
+    border-color: var(--color-gold-dark);
+    box-shadow: 0 0 0 3px rgba(228, 169, 74, 0.35);
+}
+
+#submitPassword,
+.registration-form button {
+    background-color: var(--color-gold);
+    color: var(--color-coffee);
+    border: none;
+    padding: 13px 30px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+#submitPassword:hover,
+.registration-form button:hover {
+    background-color: var(--color-gold-dark);
+}
+
+.registration-form button:disabled {
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: var(--color-error);
+    margin-top: 12px;
+    font-size: 14px;
+    min-height: 18px;
+}
+
+/* Main Content */
+.welcome-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 30px;
+    margin-bottom: 10px;
+    line-height: 1.15;
 }
 
 .event-date {
-    color: #fff;
-    font-size: 18px;
-    margin-bottom: 15px;
-    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-berry);
+    margin-bottom: 14px;
 }
 
 .event-description {
-    color: #fff;
-    font-size: 16px;
-    margin-bottom: 30px;
-    text-align: center;
-    line-height: 1.5;
+    font-size: 15px;
+    margin-bottom: 28px;
+    line-height: 1.55;
+    opacity: 0.85;
 }
 
 .registration-form {
-    margin-bottom: 30px;
+    text-align: left;
+    margin-bottom: 24px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .form-group label {
     display: block;
-    color: #fff;
-    margin-bottom: 5px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--color-coffee);
 }
 
 .form-group input {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #fff;
-    border-radius: 5px;
+    padding: 12px 14px;
+    border: 2px solid var(--color-crust-line);
+    border-radius: 6px;
+    font-family: var(--font-body);
     font-size: 16px;
     background-color: #fff;
-    color: #000;
+    color: var(--color-coffee);
 }
 
-.form-group input:focus {
-    outline: none;
-    border-color: #FF8C00;
+.wildcard-choice {
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 20px;
+    background-color: var(--color-cream-dim);
+    border-left: 4px solid var(--color-berry);
+    border-radius: 4px;
 }
 
-.registration-form button {
-    background-color: #FF8C00;
-    color: #000;
+.wildcard-message {
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.wildcard-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.wildcard-buttons button {
+    flex: 1;
+    padding: 12px;
     border: none;
-    padding: 15px 40px;
-    border-radius: 5px;
-    font-size: 16px;
+    background-color: var(--color-gold);
+    color: var(--color-coffee);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
     cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s ease;
 }
 
-.registration-form button:hover {
-    background-color: #FFA500;
+.wildcard-buttons button:hover {
+    background-color: var(--color-gold-dark);
 }
 
 .assignment-result {
-    color: #fff;
-    font-size: 24px;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 20px;
-    padding: 20px;
-    border: 2px solid #fff;
-    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: left;
+    margin-top: 8px;
+    padding: 18px 20px;
+    background-color: var(--color-cream-dim);
+    border-left: 4px solid var(--color-gold);
+    border-radius: 4px;
     display: none;
 }
 
@@ -194,62 +263,34 @@ body {
     animation: fadeIn 0.5s ease;
 }
 
-/* Animations */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideDown {
-    from {
-        height: 200px;
-    }
-    to {
-        height: 100vh;
-    }
-}
-
-@keyframes expandWidth {
-    from {
-        width: 400px;
-    }
-    to {
-        width: 80%;
-    }
-}
-
-/* Utility Classes */
 .hidden {
     display: none !important;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .password-box {
-        margin: 20px;
-        padding: 30px;
+@media (max-width: 480px) {
+    .card-inner {
+        padding: 34px 24px 30px;
     }
-    
-    .content-box {
-        margin: 20px;
-        padding: 30px;
-    }
-    
+
     .welcome-title {
-        font-size: 28px;
+        font-size: 26px;
     }
-    
-    .event-date {
-        font-size: 16px;
-    }
-    
+
     .event-description {
         font-size: 14px;
     }
-} 
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}
